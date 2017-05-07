@@ -2,8 +2,9 @@
  * Created by Liam Vovk on 2017-05-04.
  */
 
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
+let mongoose = require('mongoose')
+let Schema = mongoose.Schema
+let userType = require('../../types/')
 
 let messageSchema = new Schema({
   _chat_id: Number,
@@ -14,4 +15,4 @@ let messageSchema = new Schema({
   viewed: Boolean
 })
 
-modulel.exports = mongoose.model('Messages', messageSchema)
+module.exports = messageSchema

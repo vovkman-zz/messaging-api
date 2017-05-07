@@ -5,7 +5,9 @@
 require('dotenv').config({path: '/env'})
 let mongoose = require('mongoose')
 
-let dbConnectionString = process.env.NODE_ENV === 'PROD' ? process.env.MONGODB_CONNECTION_PROD : process.env.MONGODB_CONNECTION_DEV
+let dbConnectionString = process.env.MONGODB_CONNECTION_PROD
+dbConnectionString = process.env.NODE_ENV === 'test' ? process.env.MONGODB_CONNECTION_TEST : dbConnectionString
+dbConnectionString = process.env.NODE_ENV === 'dev' ? process.env.MONGODB_CONNECTION_DEV : dbConnectionString
 
 mongoose.connect( dbConnectionString )
 
