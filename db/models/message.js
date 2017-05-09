@@ -4,15 +4,14 @@
 
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
-let userType = require('../../types/')
 
 let messageSchema = new Schema({
-  _chat_id: Number,
-  user_from: String,
-  user_to: String,
+  _chat_id: { type: Schema.Types.ObjectId, ref: 'Chats' },
+  user_from: { type: String, required: true },
+  user_to: { type: String, required: true },
   time_sent: Date,
   time_viewed: Date,
   viewed: Boolean
 })
 
-module.exports = messageSchema
+module.exports = mongoose.model('Message', messageSchema)

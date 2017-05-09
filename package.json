@@ -4,12 +4,13 @@
   "description": "cozii messaging api",
   "main": "app.js",
   "scripts": {
-    "dev": "node app.js",
-    "test": "mocha --require co-mocha test/**/**.spec.js"
+    "dev": "set NODE_ENV=dev && node app.js",
+    "test": "set NODE_ENV=test && mocha --require co-mocha test/**/**.spec.js"
   },
   "author": "Liam Vovk",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "body-parser": "^1.15.2",
     "dotenv": "^4.0.0",
     "express": "^4.14.0",

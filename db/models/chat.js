@@ -4,13 +4,12 @@
 
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
-let messageSchema = require('../schemas/message')
-let userSchema = require('../schemas/user')
 
 let chatSchema = new Schema({
-  users: [userSchema],
-  messages: [messageSchema],
-  active: Boolean
+  users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  messages: [{ type: Schema.Types.ObjectId, ref: 'Message', default: null }],
+  last_accessed: { type: Date, default: Date.now() },
+  active: { type: Boolean, default: true }
 })
 
-module.exports = mongoose.model('Chats', chatSchema)
+module.exports = mongoose.model('Chat', chatSchema)

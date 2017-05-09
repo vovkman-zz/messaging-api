@@ -3,11 +3,12 @@
  */
 
 class User {
-  constructor (name, email, phone_number, account_type) {
+  constructor (name, email, phone_number, account_type, chats) {
     this.name = name
     this.email = email
     this.phone_number = phone_number
     this.account_type = account_type
+    this.chats = chats
   }
 }
 
