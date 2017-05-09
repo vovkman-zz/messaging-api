@@ -9,6 +9,7 @@ let app = express();
 process.env.NODE_ENV = process.env.NODE_ENV.trim()
 
 let db = require('./db/connect/connect')
+
 let ChatService = require('./services/ChatService')()
 let MessageService = require('./services/MessageService')()
 let UserService = require('./services/UserService')()
@@ -16,6 +17,8 @@ let UserService = require('./services/UserService')()
 let Chat = require('./types/chat')
 let Message = require('./types/message')
 let User = require('./types/user')
+
+let Errors = require('./constants/errors')
 
 app.set('port', (process.env.port || 3000));
 
@@ -44,8 +47,7 @@ app.get('/users', ( req, res ) => {
 
 app.post('/users', (req, res) => {
   let newUser = req.body
-  newUser = new User(newUser.name, newUser.email, newUser.phone_number, newUser.account_type)
-  console.log(newUser)
+  newUser = new User( newUser )
   UserService.insertUser(newUser)
     .then( (result) => {
       console.log(result)
@@ -59,7 +61,6 @@ app.post('/users', (req, res) => {
 app.post('/chats', (req, res) => {
   let users = JSON.parse(req.body.users)
   let newChat = new Chat( users )
-  console.log(newChat)
   ChatService.insertChat( newChat )
     .then((result) => {
       console.log(result)
@@ -70,14 +71,21 @@ app.post('/chats', (req, res) => {
   res.send('swag')
 })
 
-app.post('/message', (req, res) => {
-  if ( req.query.chat === null ) {
-    res.status(404).send('')
-  }
+app.post('/messages', (req, res) => {
+  let newMessage = req.body
+  MessageService.insertMessage( newMessage )
+    .then( (result) => {
+      console.log(result)
+      res.send('booya')
+    })
+    .catch( (err) => {
+      console.log(err)
+      res.send('error yahbish')
+    })
 })
 
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'connection error:'))
 
 app.listen(app.get('port'), function() {
-  console.log('Server started: http://localhost:' + app.get('port') + '/');
+  console.log('Server started: http://localhost:' + app.get('port') + '/')
 });

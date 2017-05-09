@@ -2,15 +2,15 @@
  * Created by Liam Vovk on 2017-05-05.
  */
 
-class Message {
-  constructor ( _chat_id, user_from, user_to, time_sent, time_viewed, viewed ) {
-    this._chat_id = _chat_id
-    this.user_from = user_from
-    this.user_to = user_to
-    this.time_sent = time_sent
-    this.time_vivewed = time_viewed
-    this.viewed = viewed
+class message {
+  constructor ( message ) {
+    this._chat_id = message._chat_id
+    this._user_from_id = message._user_from_id
+    this.time_sent = Date.now()
+    this.time_viewed = message.time_viewed
+    this.viewed = message.viewed
+    this.message = message.message
   }
 }
 
-module.exports = Message
+module.exports = message

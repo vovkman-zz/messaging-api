@@ -2,11 +2,12 @@
  * Created by Liam Vovk on 2017-05-05.
  */
 
-let Chat = require('../db/models/chat')
+let Message = require('../db/models/message')
 
 class MessageService {
-  insertMessage(chatId, message) {
-
+  insertMessage( newMessage ) {
+    newMessage = new Message( newMessage )
+    return newMessage.save()
   }
 }
 

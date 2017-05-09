@@ -2,13 +2,13 @@
  * Created by Liam Vovk on 2017-05-08.
  */
 
-class Chat {
-  constructor ( users, messages = null, last_accessed = null, active = null) {
-    this.users = users
-    this.messages = messages
-    this.last_accessed = last_accessed
-    this.active = active
+class chat {
+  constructor ( newChat ) {
+    this.users = newChat.users
+    this.messages = newChat.messages
+    this.last_accessed = Date.now()
+    this.active = newChat.active
   }
 }
 
-module.exports = Chat
+module.exports = chat

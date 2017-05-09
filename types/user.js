@@ -2,14 +2,14 @@
  * Created by Liam Vovk on 2017-05-06.
  */
 
-class User {
-  constructor (name, email, phone_number, account_type, chats) {
-    this.name = name
-    this.email = email
-    this.phone_number = phone_number
-    this.account_type = account_type
-    this.chats = chats
+class user {
+  constructor ( user ) {
+    this.name = user.name
+    this.email = user.email
+    this.phone_number = user.phone_number
+    this.account_type = user.account_type
+    this.chats = user.chats
   }
 }
 
-module.exports = User
+module.exports = user
