@@ -5,11 +5,11 @@
 let User = require('../db/models/user')
 
 class UserService {
-  insertUser ( newUser ) {
-    newUser = new User( newUser )
+  insertUser (newUser) {
+    newUser = new User(newUser)
     return newUser.save()
   }
-  getUser( userId ) {
+  getUser (userId) {
     return User.findById(userId)
   }
 }

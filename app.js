@@ -6,10 +6,10 @@
  * TODO: ask devs if you can store variables locally for the lifetime of a request
  */
 
-let path = require('path');
-let express = require('express');
-let bodyParser = require('body-parser');
-let app = express();
+let path = require('path')
+let express = require('express')
+let bodyParser = require('body-parser')
+let app = express()
 process.env.NODE_ENV = process.env.NODE_ENV.trim()
 
 let db = require('./db/connect/connect')
@@ -21,33 +21,33 @@ let UserService = require('./services/UserService')()
 let Errors = require('./constants/errors')
 let Success = require('./constants/success')
 
-app.set('port', (process.env.port || 3000));
+app.set('port', (process.env.port || 3000))
 
 // app.use('/', express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
 // Additional middleware which will set headers that we need on each request.
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // Set permissive CORS header - this allows this server to be used only as
   // an API server in conjunction with something like webpack-dev-server.
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', '*')
 
   // Disable caching so we'll always get the latest comments.
-  res.setHeader('Cache-Control', 'no-cache');
-  next();
-});
+  res.setHeader('Cache-Control', 'no-cache')
+  next()
+})
 app.get('/', (req, res) => {
   res.send({swag: 'yolo'})
 })
 
-app.get('/users/:userId', ( req, res ) => {
+app.get('/users/:userId', (req, res) => {
   let userId = req.params.userId
   UserService.getUser(userId)
-    .then( (user) => {
+    .then((user) => {
       res.send(user)
     })
-    .catch( (err) => {
+    .catch((err) => {
       console.log(err)
       res.status(400).send(Errors.USER_QUERY_ERROR)
     })
@@ -56,10 +56,10 @@ app.get('/users/:userId', ( req, res ) => {
 app.post('/users', (req, res) => {
   let newUser = req.body
   UserService.insertUser(newUser)
-    .then( () => {
+    .then(() => {
       res.status(201).send(Success.USER_CREATED)
     })
-    .catch( (err) => {
+    .catch((err) => {
       console.log(err)
       res.status(400).send(Errors.USER_NOT_CREATED)
     })
@@ -67,11 +67,11 @@ app.post('/users', (req, res) => {
 
 app.post('/chats', (req, res) => {
   let users = JSON.parse(req.body.users)
-  ChatService.insertChat( users )
+  ChatService.insertChat(users)
     .then(() => {
       res.status(201).send(Success.CHAT_CREATED)
     })
-    .catch( (err) => {
+    .catch((err) => {
       console.log(err)
       res.status(400).send(Errors.CHAT_NOT_CREATED)
     })
@@ -79,18 +79,18 @@ app.post('/chats', (req, res) => {
 
 app.post('/messages', (req, res) => {
   let newMessage = req.body
-  MessageService.insertMessage( newMessage )
-    .then( ( insertedMessage ) => {
-      ChatService.updateChatMessages( insertedMessage )
-        .then( () => {
+  MessageService.insertMessage(newMessage)
+    .then((insertedMessage) => {
+      ChatService.updateChatMessages(insertedMessage)
+        .then(() => {
           res.status(201).send(Success.MESSAGE_CREATED)
         })
-        .catch( (err) => {
+        .catch((err) => {
           console.log(err)
           res.status(400).send(Errors.MESSAGE_CREATION_INCOMPLETE)
-      })
+        })
     })
-    .catch( (err) => {
+    .catch((err) => {
       console.log(err)
       res.status(400).send(Errors.MESSAGE_NOT_CREATED)
     })
@@ -98,6 +98,6 @@ app.post('/messages', (req, res) => {
 
 db.on('error', console.error.bind(console, 'connection error:'))
 
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function () {
   console.log('Server started: http://localhost:' + app.get('port') + '/')
-});
+})

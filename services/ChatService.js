@@ -5,18 +5,18 @@
 let Chat = require('../db/models/chat')
 
 class ChatService {
-  insertChat ( newChat ) {
-    newChat = new Chat( newChat )
+  insertChat (newChat) {
+    newChat = new Chat(newChat)
     return newChat.save()
   }
-  updateChatMessages ( insertedMessage ) {
+  updateChatMessages (insertedMessage) {
     return Chat.findOne({'_id': insertedMessage._chat_id})
-      .then( (chat) => {
+      .then((chat) => {
         console.log(chat)
-        chat.messages.push( insertedMessage._id )
+        chat.messages.push(insertedMessage._id)
         return chat.save()
       })
-      .catch( (err) => {
+      .catch((err) => {
         console.log(err)
       })
   }
