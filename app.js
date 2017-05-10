@@ -2,6 +2,10 @@
  * Created by Liam Vovk on 2017-05-04.
  */
 
+/**
+ * TODO: ask devs if you can store variables locally for the lifetime of a request
+ */
+
 let path = require('path');
 let express = require('express');
 let bodyParser = require('body-parser');
@@ -14,11 +18,8 @@ let ChatService = require('./services/ChatService')()
 let MessageService = require('./services/MessageService')()
 let UserService = require('./services/UserService')()
 
-let Chat = require('./types/chat')
-let Message = require('./types/message')
-let User = require('./types/user')
-
 let Errors = require('./constants/errors')
+let Success = require('./constants/success')
 
 app.set('port', (process.env.port || 3000));
 
@@ -36,7 +37,6 @@ app.use(function(req, res, next) {
   res.setHeader('Cache-Control', 'no-cache');
   next();
 });
-
 app.get('/', (req, res) => {
   res.send({swag: 'yolo'})
 })
@@ -47,40 +47,47 @@ app.get('/users', ( req, res ) => {
 
 app.post('/users', (req, res) => {
   let newUser = req.body
-  newUser = new User( newUser )
   UserService.insertUser(newUser)
     .then( (result) => {
       console.log(result)
+      res.status(201).send(Success.USER_CREATED)
     })
     .catch( (err) => {
       console.log(err)
+      res.status(400).send(Errors.USER_NOT_CREATED)
     })
-  res.send('swag')
 })
 
 app.post('/chats', (req, res) => {
   let users = JSON.parse(req.body.users)
-  let newChat = new Chat( users )
-  ChatService.insertChat( newChat )
-    .then((result) => {
-      console.log(result)
+  console.log(users)
+  ChatService.insertChat( users )
+    .then((newChat) => {
+      console.log(newChat)
+      res.status(201).send(Success.CHAT_CREATED)
     })
     .catch( (err) => {
       console.log(err)
+      res.status(400).send(Errors.CHAT_NOT_CREATED)
     })
-  res.send('swag')
 })
 
 app.post('/messages', (req, res) => {
   let newMessage = req.body
   MessageService.insertMessage( newMessage )
-    .then( (result) => {
-      console.log(result)
-      res.send('booya')
+    .then( ( insertedMessage ) => {
+      ChatService.updateChatMessages( insertedMessage )
+        .then( () => {
+          res.status(201).send(Success.MESSAGE_CREATED)
+        })
+        .catch( (err) => {
+          console.log(err)
+          res.status(400).send(Errors.MESSAGE_CREATION_INCOMPLETE)
+      })
     })
     .catch( (err) => {
       console.log(err)
-      res.send('error yahbish')
+      res.status(400).send(Errors.MESSAGE_NOT_CREATED)
     })
 })
 

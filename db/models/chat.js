@@ -7,7 +7,7 @@ let Schema = mongoose.Schema
 
 let chatSchema = new Schema({
   users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  messages: [{ type: Schema.Types.ObjectId, ref: 'Message', default: null }],
+  messages: [{ type: Schema.Types.ObjectId, ref: 'Message', default: [] }],
   last_accessed: { type: Date, default: Date.now() },
   active: { type: Boolean, default: true }
 })

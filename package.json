@@ -4,7 +4,7 @@
   "description": "cozii messaging api",
   "main": "app.js",
   "scripts": {
-    "dev": "set NODE_ENV=dev && node app.js",
+    "dev": "set NODE_ENV=dev && nodemon app.js",
     "test": "set NODE_ENV=test && mocha --require co-mocha test/**/**.spec.js"
   },
   "author": "Liam Vovk",
@@ -20,6 +20,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "co-mocha": "^1.2.0",
-    "mocha": "^3.3.0"
+    "mocha": "^3.3.0",
+    "nodemon": "^1.11.0"
   }
 }

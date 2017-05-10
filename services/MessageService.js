@@ -11,5 +11,7 @@ class MessageService {
   }
 }
 
+// make a plugin that updates the chats collection with the ObjectId of the message
+
 module.exports = () => { return new MessageService() }
 
