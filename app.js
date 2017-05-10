@@ -41,15 +41,22 @@ app.get('/', (req, res) => {
   res.send({swag: 'yolo'})
 })
 
-app.get('/users', ( req, res ) => {
-  UserService.getUser()
+app.get('/users/:userId', ( req, res ) => {
+  let userId = req.params.userId
+  UserService.getUser(userId)
+    .then( (user) => {
+      res.send(user)
+    })
+    .catch( (err) => {
+      console.log(err)
+      res.status(400).send(Errors.USER_QUERY_ERROR)
+    })
 })
 
 app.post('/users', (req, res) => {
   let newUser = req.body
   UserService.insertUser(newUser)
-    .then( (result) => {
-      console.log(result)
+    .then( () => {
       res.status(201).send(Success.USER_CREATED)
     })
     .catch( (err) => {
@@ -60,10 +67,8 @@ app.post('/users', (req, res) => {
 
 app.post('/chats', (req, res) => {
   let users = JSON.parse(req.body.users)
-  console.log(users)
   ChatService.insertChat( users )
-    .then((newChat) => {
-      console.log(newChat)
+    .then(() => {
       res.status(201).send(Success.CHAT_CREATED)
     })
     .catch( (err) => {

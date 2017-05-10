@@ -9,8 +9,8 @@ class UserService {
     newUser = new User( newUser )
     return newUser.save()
   }
-  getUser(  ) {
-
+  getUser( userId ) {
+    return User.findById(userId)
   }
 }
 
