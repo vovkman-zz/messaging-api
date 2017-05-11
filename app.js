@@ -10,16 +10,12 @@ let path = require('path')
 let express = require('express')
 let bodyParser = require('body-parser')
 let app = express()
-process.env.NODE_ENV = process.env.NODE_ENV.trim()
 
 let db = require('./db/connect/connect')
 
 let ChatService = require('./services/ChatService')()
 let MessageService = require('./services/MessageService')()
 let UserService = require('./services/UserService')()
-
-let Errors = require('./constants/errors')
-let Success = require('./constants/success')
 
 app.set('port', (process.env.port || 3000))
 
@@ -49,31 +45,31 @@ app.get('/users/:userId', (req, res) => {
     })
     .catch((err) => {
       console.log(err)
-      res.status(400).send(Errors.USER_QUERY_ERROR)
+      res.status(400).send(err)
     })
 })
 
 app.post('/users', (req, res) => {
   let newUser = req.body
   UserService.insertUser(newUser)
-    .then(() => {
-      res.status(201).send(Success.USER_CREATED)
+    .then((newUser) => {
+      res.status(201).send(newUser)
     })
     .catch((err) => {
       console.log(err)
-      res.status(400).send(Errors.USER_NOT_CREATED)
+      res.status(400).send(err)
     })
 })
 
 app.post('/chats', (req, res) => {
   let users = JSON.parse(req.body.users)
   ChatService.insertChat(users)
-    .then(() => {
-      res.status(201).send(Success.CHAT_CREATED)
+    .then(( newChat ) => {
+      res.status(201).send(newChat)
     })
     .catch((err) => {
       console.log(err)
-      res.status(400).send(Errors.CHAT_NOT_CREATED)
+      res.status(400).send(err)
     })
 })
 
@@ -82,22 +78,26 @@ app.post('/messages', (req, res) => {
   MessageService.insertMessage(newMessage)
     .then((insertedMessage) => {
       ChatService.updateChatMessages(insertedMessage)
-        .then(() => {
-          res.status(201).send(Success.MESSAGE_CREATED)
+        .then((newMessage) => {
+          res.status(201).send(newMessage)
         })
         .catch((err) => {
           console.log(err)
-          res.status(400).send(Errors.MESSAGE_CREATION_INCOMPLETE)
+          res.status(400).send(err)
         })
     })
     .catch((err) => {
       console.log(err)
-      res.status(400).send(Errors.MESSAGE_NOT_CREATED)
+      res.status(400).send(err)
     })
 })
 
-db.on('error', console.error.bind(console, 'connection error:'))
+db.catch((err) => {
+  console.log(err)
+})
 
 app.listen(app.get('port'), function () {
   console.log('Server started: http://localhost:' + app.get('port') + '/')
 })
+
+module.exports = app // Exporting for testing purposes

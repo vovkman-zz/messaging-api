@@ -5,8 +5,9 @@
 let Chat = require('../db/models/chat')
 
 class ChatService {
-  insertChat (newChat) {
-    newChat = new Chat(newChat)
+  insertChat (users) {
+    let newChat = new Chat()
+    newChat.users = users
     return newChat.save()
   }
   updateChatMessages (insertedMessage) {
