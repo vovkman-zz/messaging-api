@@ -12,6 +12,11 @@ class UserService {
   getUser (userId) {
     return User.findById(userId)
   }
+  updateUserChats (newChat) {
+    return User.find({
+      _id: { $in: newChat.users }
+    })
+  }
 }
 
 module.exports = () => { return new UserService() }
