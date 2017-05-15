@@ -11,7 +11,7 @@ let should = chai.should()
 
 let db = require('../../db/connect/connect')
 let app = require('../../app')
-let modelFixtures = require('../fixtures/models')
+let modelFixtures = require('../fixtures/models/models')
 
 describe('chats collection api endpoints', () => {
   before(function * () {

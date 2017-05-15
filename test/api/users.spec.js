@@ -11,7 +11,7 @@ let should = chai.should()
 
 let db = require('../../db/connect/connect')
 let app = require('../../app')
-let modelFixtures = require('../fixtures/models')
+let modelFixtures = require('../fixtures/models/models')
 
 describe('users collection api endpoints', () => {
   describe('/POST users', () => {
@@ -32,6 +32,8 @@ describe('users collection api endpoints', () => {
           res.body.should.have.property('chats')
         })
     })
-    it('should not insert an invalid user')
+    it('should not insert a user without a name', function * () {
+      let invalidUser = modelFixtures.
+    })
   })
 })
