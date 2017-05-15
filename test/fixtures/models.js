@@ -43,3 +43,9 @@ module.exports.users = [
     account_type: 'contractor'
   }
 ]
+
+module.exports.messages = [
+  {
+
+  }
+]

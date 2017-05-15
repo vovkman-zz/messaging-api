@@ -13,9 +13,20 @@ class UserService {
     return User.findById(userId)
   }
   updateUserChats (newChat) {
-    return User.find({
-      _id: { $in: newChat.users }
-    })
+    // return User.find({
+    //   _id: { $in: newChat.users }
+    // }).then((users) => {
+    //   users.map((user) => {
+    //     user.chats.push(newChat._id)
+    //   })
+    //   console.log(users)
+    // })
+    let preUpdateUsers =
+      newChat.users.map((user) => {
+        return User.findByIdAndUpdate(user,
+          {"$push": {"chats": newChat._id}})
+      })
+    return Promise.all(preUpdateUsers)
   }
 }
 

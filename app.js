@@ -49,6 +49,13 @@ app.get('/users/:userId', (req, res) => {
     })
 })
 
+app.get('/chats', (req, res) => {
+  ChatService.getChat().then(result => {
+    console.log(result)
+    res.status(201).send(result)
+  })
+})
+
 app.post('/users', (req, res) => {
   let newUser = req.body
   UserService.insertUser(newUser)
@@ -65,7 +72,10 @@ app.post('/chats', (req, res) => {
   let users = JSON.parse(req.body.users)
   ChatService.insertChat(users)
     .then(( newChat ) => {
-      res.status(201).send(newChat)
+    UserService.updateUserChats(newChat)
+      .then((updatedUsers) => {
+        res.status(201).send(updatedUsers)
+      })
     })
     .catch((err) => {
       console.log(err)

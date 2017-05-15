@@ -32,5 +32,6 @@ describe('users collection api endpoints', () => {
           res.body.should.have.property('chats')
         })
     })
+    it('should not insert an invalid user')
   })
 })

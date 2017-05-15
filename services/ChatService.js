@@ -21,6 +21,12 @@ class ChatService {
         console.log(err)
       })
   }
+  getChat(){
+    return Chat
+      .findOne({'_id': "591915c545dbf6607592ba49"})
+      .populate('users')
+      .exec()
+  }
 }
 
 module.exports = () => { return new ChatService() }
