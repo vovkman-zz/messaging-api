@@ -26,17 +26,9 @@ module.exports.users = [
   }
 ]
 
-module.exports.invalidUsers = [
+module.exports.invalidUsers =
   {
     noName: {
-      name: 'Liam TestDB',
-      email: 'liam_is_swag@test.com',
-      phone_number: 1234567,
-      age: 21,
-      account_type: 'contractor'
-    },
-    noEmail: {
-      name: 'Liam TestDB',
       email: 'liam_is_swag@test.com',
       phone_number: 1234567,
       age: 21,
@@ -46,8 +38,7 @@ module.exports.invalidUsers = [
       name: 'Liam TestDB',
       email: 'liam_is_swag@test.com',
       phone_number: 1234567,
-      age: 21,
-      account_type: 'contractor'
+      age: 21
     },
     invalidAccountType: {
       name: 'Liam TestDB',
@@ -57,4 +48,3 @@ module.exports.invalidUsers = [
       account_type: 'invalid'
     }
   }
-]

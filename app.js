@@ -63,7 +63,6 @@ app.post('/users', (req, res) => {
       res.status(201).send(newUser)
     })
     .catch((err) => {
-      console.log(err)
       res.status(400).send(err)
     })
 })
@@ -73,8 +72,8 @@ app.post('/chats', (req, res) => {
   ChatService.insertChat(users)
     .then(( newChat ) => {
     UserService.updateUserChats(newChat)
-      .then((updatedUsers) => {
-        res.status(201).send(updatedUsers)
+      .then(() => {
+        res.status(201).send(newChat)
       })
     })
     .catch((err) => {
