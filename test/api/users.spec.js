@@ -73,4 +73,20 @@ describe('users collection api endpoints', () => {
         })
     })
   })
+  describe('/GET users/:userId', (req, res) => {
+    it('should return an existing user', (done) => {
+      let userId = userFixtures.userId
+      chai.request(app)
+        .get('/users/591a3b5a56b7e5938d136c50')
+        .end((err, res) => {
+          res.should.have.status(200)
+          res.body.should.be.a('object')
+          res.body.should.have.property('_id')
+          res.body.should.have.property('__v')
+          res.body.should.have.property('name')
+          res.body.should.have.property('account_type')
+          done()
+        })
+    })
+  })
 })

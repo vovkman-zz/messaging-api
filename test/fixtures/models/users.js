@@ -26,6 +26,8 @@ module.exports.users = [
   }
 ]
 
+module.exports.userId = "591a3b5a56b7e5938d136c50"
+
 module.exports.invalidUsers =
   {
     noName: {

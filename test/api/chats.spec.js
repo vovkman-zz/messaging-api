@@ -24,7 +24,6 @@ describe('chats collection api endpoints', () => {
         .post('/chats')
         .send(testChat)
         .end((err, res) => {
-        console.log(res)
           res.should.have.status(201)
           res.body.should.be.a('object')
           res.body.should.have.property('_id')
@@ -36,8 +35,6 @@ describe('chats collection api endpoints', () => {
           expect(res.body.users).to.eql(JSON.parse(testChat.users))
           done()
         })
-    })
-    it('should not create a chat with less than 2 users', () => {
     })
   })
 })
