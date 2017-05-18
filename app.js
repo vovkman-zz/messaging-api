@@ -33,72 +33,72 @@ app.use(function (req, res, next) {
   res.setHeader('Cache-Control', 'no-cache')
   next()
 })
+
 app.get('/', (req, res) => {
   res.send({swag: 'yolo'})
 })
-
-app.get('/users/:userId', (req, res) => {
-  let userId = req.params.userId
-  UserService.getUser(userId)
-    .then((user) => {
-      res.send(user)
+app.route('/chats')
+  .get((req, res) => {
+    ChatService.getChat().then(result => {
+      console.log(result)
+      res.status(201).send(result)
     })
-    .catch((err) => {
-      console.log(err)
-      res.status(400).send(err)
-    })
-})
-
-app.get('/chats', (req, res) => {
-  ChatService.getChat().then(result => {
-    console.log(result)
-    res.status(201).send(result)
   })
-})
-
-app.post('/users', (req, res) => {
-  let newUser = req.body
-  UserService.insertUser(newUser)
-    .then((newUser) => {
-      res.status(201).send(newUser)
-    })
-    .catch((err) => {
-      res.status(400).send(err)
-    })
-})
-
-app.post('/chats', (req, res) => {
-  let users = JSON.parse(req.body.users)
-  ChatService.insertChat(users)
-    .then(( newChat ) => {
-    UserService.updateUserChats(newChat)
-      .then(() => {
-        res.status(201).send(newChat)
+  .post((req, res) => {
+    let users = JSON.parse(req.body.users)
+    ChatService.insertChat(users)
+      .then(( newChat ) => {
+        UserService.updateUserChats(newChat)
+          .then(() => {
+            res.status(201).send(newChat)
+          })
       })
-    })
-    .catch((err) => {
-      console.log(err)
-      res.status(400).send(err)
-    })
-})
-
-app.post('/messages', (req, res) => {
-  let newMessage = req.body
-  MessageService.insertMessage(newMessage)
-    .then((insertedMessage) => {
-      ChatService.updateChatMessages(insertedMessage)
-        .then((newMessage) => {
-          res.status(201).send(newMessage)
-        })
-        .catch((err) => {
-          console.log(err)
-          res.status(400).send(err)
-        })
-    })
-    .catch((err) => {
-      console.log(err)
-      res.status(400).send(err)
-    })
+      .catch((err) => {
+        console.log(err)
+        res.status(400).send(err)
+      })
+  })
+app.route('/messages')
+  .post((req, res) => {
+    let newMessage = req.body
+    MessageService.insertMessage(newMessage)
+      .then((insertedMessage) => {
+        ChatService.updateChatMessages(insertedMessage)
+          .then((newMessage) => {
+            res.status(201).send(newMessage)
+          })
+          .catch((err) => {
+            console.log(err)
+            res.status(400).send(err)
+          })
+      })
+      .catch((err) => {
+        console.log(err)
+        res.status(400).send(err)
+      })
+  })
+app.route('/users')
+  .post((req, res) => {
+    let newUser = req.body
+    UserService.insertUser(newUser)
+      .then((newUser) => {
+        res.status(201).send(newUser)
+      })
+      .catch((err) => {
+        res.status(400).send(err)
+      })
+  })
+app.route('/users/:userId')
+  .get((req, res) => {
+    let userId = req.params.userId
+    UserService.getUser(userId)
+      .then((user) => {
+        res.send(user)
+      })
+      .catch((err) => {
+        console.log(err)
+        res.status(400).send(err)
+      })
 })
 
 db.catch((err) => {
