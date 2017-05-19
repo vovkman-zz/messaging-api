@@ -62,9 +62,9 @@ app.route('/messages')
   .post((req, res) => {
     let newMessage = req.body
     MessageService.insertMessage(newMessage)
-      .then((insertedMessage) => {
-        ChatService.updateChatMessages(insertedMessage)
-          .then((newMessage) => {
+      .then((newMessage) => {
+        ChatService.updateChatMessages(newMessage)
+          .then(() => {
             res.status(201).send(newMessage)
           })
           .catch((err) => {
@@ -76,6 +76,10 @@ app.route('/messages')
         console.log(err)
         res.status(400).send(err)
       })
+  })
+app.route('/messages/:messageId')
+  .delete((req, res) => {
+
   })
 app.route('/users')
   .post((req, res) => {

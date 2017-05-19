@@ -14,6 +14,9 @@ let app = require('../../app')
 let userFixtures = require('../fixtures/models/users')
 
 describe('users collection api endpoints', () => {
+  before(function * () {
+    yield db
+  })
   describe('/POST users', () => {
     it('should insert a user', (done) => {
       let testUser = userFixtures.users[0]
