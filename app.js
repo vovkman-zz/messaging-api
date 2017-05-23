@@ -23,6 +23,13 @@ app.set('port', (process.env.port || 3000))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
+// Set user for lifetime of request
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'dev') {
+    res.locals.user = process.env.DEV_JWT
+  }
+})
+
 // Additional middleware which will set headers that we need on each request.
 app.use(function (req, res, next) {
   // Set permissive CORS header - this allows this server to be used only as
@@ -39,9 +46,10 @@ app.get('/', (req, res) => {
 })
 app.route('/chats')
   .get((req, res) => {
-    ChatService.getChat().then(result => {
-      console.log(result)
-      res.status(201).send(result)
+    ChatService.getChat()
+      .then(result => {
+        console.log(result)
+        res.status(201).send(result)
     })
   })
   .post((req, res) => {
@@ -79,7 +87,11 @@ app.route('/messages')
   })
 app.route('/messages/:messageId')
   .delete((req, res) => {
-
+    let messageId = req.params.messageId
+  })
+  .put((req, res) => {
+    let messageId = req.params.messageId
+    MessageService.updateMarkAsRead()
   })
 app.route('/users')
   .post((req, res) => {
