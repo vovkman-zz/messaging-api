@@ -13,6 +13,7 @@ let app = express()
 
 let db = require('./db/connect/connect')
 
+let AuthService = require('./services/AuthService')()
 let ChatService = require('./services/ChatService')()
 let MessageService = require('./services/MessageService')()
 let UserService = require('./services/UserService')()
@@ -25,9 +26,10 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 // Set user for lifetime of request
 app.use((req, res, next) => {
-  if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'dev') {
-    res.locals.user = process.env.DEV_JWT
-  }
+  AuthService.authenticate(null).then(decoded => {
+    res.locals.user = decoded
+    next()
+  })
 })
 
 // Additional middleware which will set headers that we need on each request.
@@ -41,9 +43,14 @@ app.use(function (req, res, next) {
   next()
 })
 
-app.get('/', (req, res) => {
-  res.send({swag: 'yolo'})
-})
+app.route('/')
+  .get((req, res) => {
+    res.send(res.locals.user)
+  })
+  .post((req, res) => {
+    console.log(req.body)
+    res.send('swag')
+  })
 app.route('/chats')
   .get((req, res) => {
     ChatService.getChat()
@@ -70,10 +77,10 @@ app.route('/messages')
   .post((req, res) => {
     let newMessage = req.body
     MessageService.insertMessage(newMessage)
-      .then((newMessage) => {
-        ChatService.updateChatMessages(newMessage)
+      .then((insertedMessage) => {
+        ChatService.updateChatMessages(insertedMessage)
           .then(() => {
-            res.status(201).send(newMessage)
+            res.status(201).send(insertedMessage)
           })
           .catch((err) => {
             console.log(err)

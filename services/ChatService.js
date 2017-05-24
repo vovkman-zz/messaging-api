@@ -11,9 +11,9 @@ class ChatService {
     return newChat.save()
   }
   updateChatMessages (insertedMessage) {
+    console.log(insertedMessage)
     return Chat.findOne({'_id': insertedMessage._chat_id})
       .then((chat) => {
-        console.log(chat)
         chat.messages.push(insertedMessage._id)
         return chat.save()
       })
