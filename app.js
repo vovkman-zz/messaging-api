@@ -98,7 +98,7 @@ app.route('/messages/:messageId')
   })
   .put((req, res) => {
     let messageId = req.params.messageId
-    MessageService.updateMarkAsRead()
+    MessageService.updateMarkAsRead(messageId)
   })
 app.route('/users')
   .post((req, res) => {

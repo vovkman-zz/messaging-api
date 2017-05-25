@@ -9,8 +9,16 @@ class MessageService {
     newMessage = new Message(newMessage)
     return newMessage.save()
   }
-  updateMarkAsRead() {
-
+  updateMarkAsRead(messageId, user) {
+    return Message.findById(messageId)
+      .then((err, message) => {
+        if (err) return err
+        let viewedByUser = {}
+        viewedByUser._user_id = user.sub
+        viewedByUser.viewed_at = Date.now()
+        message.viewedBy.push(viewedByUser)
+        return message.save()
+      })
   }
 }
 
