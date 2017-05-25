@@ -9,6 +9,7 @@ class MessageService {
     newMessage = new Message(newMessage)
     return newMessage.save()
   }
+  //TODO: Add support  for updating multiple at a time
   updateMarkAsRead(messageId, user) {
     return Message.findById(messageId)
       .then((err, message) => {

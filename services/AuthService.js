@@ -17,7 +17,6 @@ class AuthService {
       })
     })
   }
-
 }
 
 module.exports = () => { return new AuthService() }
