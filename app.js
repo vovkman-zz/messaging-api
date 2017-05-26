@@ -92,13 +92,19 @@ app.route('/messages')
         res.status(400).send(err)
       })
   })
+  .put((req, res) => {
+    let messageIds = JSON.parse(req.body.messageIds)
+    MessageService.updateMarkAsRead(messageIds, res.locals.user)
+      .then((result) => {
+        res.send(result)
+      })
+      .catch(err => {
+        res.status(400).send(err)
+      })
+  })
 app.route('/messages/:messageId')
   .delete((req, res) => {
     let messageId = req.params.messageId
-  })
-  .put((req, res) => {
-    let messageId = req.params.messageId
-    MessageService.updateMarkAsRead(messageId)
   })
 app.route('/users')
   .post((req, res) => {

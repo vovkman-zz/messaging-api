@@ -9,17 +9,22 @@ class MessageService {
     newMessage = new Message(newMessage)
     return newMessage.save()
   }
-  //TODO: Add support  for updating multiple at a time
-  updateMarkAsRead(messageId, user) {
-    return Message.findById(messageId)
-      .then((err, message) => {
-        if (err) return err
-        let viewedByUser = {}
-        viewedByUser._user_id = user.sub
-        viewedByUser.viewed_at = Date.now()
-        message.viewedBy.push(viewedByUser)
-        return message.save()
-      })
+  //TODO: Add support for updating multiple at a time
+  updateMarkAsRead(messageIds, user) {
+    let updatedMessages = messageIds.map(messageId => {
+      return Message.findById(messageId)
+        .then(message => {
+          let viewedByUser = {}
+          viewedByUser._user_id = user.sub
+          viewedByUser.viewed_at = Date.now()
+          message.viewed_by.push(viewedByUser)
+          return message.save()
+        })
+        .catch(err => {
+          return Promise.reject(err)
+        })
+    })
+    return Promise.all(updatedMessages)
   }
 }
 

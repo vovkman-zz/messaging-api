@@ -8,6 +8,15 @@ module.exports.message = {
     message: 'The one message to rule them all.'
 }
 
+module.exports.unseenMessage = {
+
+}
+module.exports.unseenMessages = [
+  {
+
+  }
+]
+
 module.exports.invalidMessages = {
   noChatId: {
     _user_from_id: '590f5c20d96cd4eccb38d6fc',
