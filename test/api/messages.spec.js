@@ -24,15 +24,21 @@ describe('messages collection api endpoints', () => {
         .post('/messages')
         .send(testMessage)
         .end((err, res) => {
-          res.should.have.status(201)
-          res.body.should.have.property('_id')
-          res.body.should.have.property('__v')
-          res.body.should.have.property('_user_from_id')
-          res.body.should.have.property('_chat_id')
-          res.body.should.have.property('viewed_by')
-          res.body.should.have.property('time_sent')
-          done()
+          if (!err) {
+            res.should.have.status(201)
+            res.body.should.have.property('_id')
+            res.body.should.have.property('__v')
+            res.body.should.have.property('_user_from_id')
+            res.body.should.have.property('_chat_id')
+            res.body.should.have.property('viewed_by')
+            res.body.should.have.property('time_sent')
+            done()
+          }
         })
     })
+    it('should not insert a message without _chat_id parameter', (done) => {
+
+    })
+    it('should update a messages views')
   })
 })
