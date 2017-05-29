@@ -14,17 +14,30 @@ class MessageService {
     let updatedMessages = messageIds.map(messageId => {
       return Message.findById(messageId)
         .then(message => {
-          let viewedByUser = {}
-          viewedByUser._user_id = user.sub
-          viewedByUser.viewed_at = Date.now()
-          message.viewed_by.push(viewedByUser)
-          return message.save()
+          if (message != null) {
+            let viewedByUser = {}
+            viewedByUser._user_id = user.sub
+            viewedByUser.viewed_at = Date.now()
+            message.viewed_by.push(viewedByUser)
+            return message.save()
+          }
+          else return Promise.resolve([])
         })
         .catch(err => {
           return Promise.reject(err)
         })
     })
     return Promise.all(updatedMessages)
+      .then(updatedMessages => {
+        let response = {
+          updatedMessages: updatedMessages,
+          updatedCount: updatedMessages.length
+        }
+        return response
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
   }
 }
 

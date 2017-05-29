@@ -26,6 +26,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 // Set user for lifetime of request
 app.use((req, res, next) => {
+  // TODO: dont pass null, get jwt from cookie
   AuthService.authenticate(null).then(decoded => {
     res.locals.user = decoded
     next()
@@ -83,17 +84,17 @@ app.route('/messages')
             res.status(201).send(insertedMessage)
           })
           .catch((err) => {
-            console.log(err)
             res.status(400).send(err)
           })
       })
       .catch((err) => {
-        console.log(err)
         res.status(400).send(err)
       })
   })
   .put((req, res) => {
     let messageIds = JSON.parse(req.body.messageIds)
+    console.log(messageIds)
+    console.log(res.locals.user)
     MessageService.updateMarkAsRead(messageIds, res.locals.user)
       .then((result) => {
         res.send(result)

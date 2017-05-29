@@ -8,14 +8,11 @@ module.exports.message = {
     message: 'The one message to rule them all.'
 }
 
-module.exports.unseenMessage = {
+module.exports.updateMessageViews = { messageIds: '["5924e519bd04615d821f1e05"]' }
 
+module.exports.updateMessagesViews = {
+  messageIds: '["5924e519bd04615d821f1e05", "592b7a336680b526378d2765", "592b7921c813d22407e14386"]'
 }
-module.exports.unseenMessages = [
-  {
-
-  }
-]
 
 module.exports.invalidMessages = {
   noChatId: {
