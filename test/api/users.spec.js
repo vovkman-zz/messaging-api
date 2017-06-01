@@ -6,7 +6,6 @@ const chaiAsPromised = require('chai-as-promised')
 const chaiHttp = require('chai-http')
 chai.use(chaiAsPromised)
 chai.use(chaiHttp)
-const expect = chai.expect
 let should = chai.should()
 
 let db = require('../../db/connect/connect')
@@ -27,7 +26,6 @@ describe('users collection api endpoints', () => {
           res.should.have.status(201)
           res.body.should.be.a('object')
           res.body.should.have.property('_id')
-          res.body.should.have.property('__v')
           res.body.should.have.property('name')
           res.body.should.have.property('email')
           res.body.should.have.property('phone_number')

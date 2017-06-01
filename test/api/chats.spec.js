@@ -17,22 +17,35 @@ describe('chats collection api endpoints', () => {
   before(function * () {
     yield db
   })
-  describe('/POST chats', () => {
-    it('should insert a chat', (done) => {
-      let testChat = chatFixtures.chats[0]
+  describe('/GET chats', () => {
+    it('should get a chat', (done) => {
+      let chatId = chatFixtures.chatId
       chai.request(app)
-        .post('/chats')
-        .send(testChat)
+        .get('/chats/' + chatId)
+        .send(chatId)
         .end((err, res) => {
-          res.should.have.status(201)
-          res.body.should.be.a('object')
+          res.should.have.status(200)
           res.body.should.have.property('_id')
-          res.body.should.have.property('__v')
           res.body.should.have.property('active')
           res.body.should.have.property('last_accessed')
           res.body.should.have.property('messages')
           res.body.should.have.property('users')
-          expect(res.body.users).to.eql(JSON.parse(testChat.users))
+          done()
+        })
+    })
+    it('should not get a chat with an invalid chatId', (done) => {
+      let invalidChatId = chatFixtures.invalidChatId
+      chai.request(app)
+        .get('/chats/' + invalidChatId)
+        .send(invalidChatId)
+        .end((err, res) => {
+          res.should.have.status(400)
+          res.body.should.have.property('message')
+          res.body.should.have.property('name')
+          res.body.should.have.property('stringValue')
+          res.body.should.have.property('kind')
+          res.body.should.have.property('value')
+          res.body.should.have.property('path')
           done()
         })
     })

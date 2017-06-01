@@ -9,7 +9,6 @@ class MessageService {
     newMessage = new Message(newMessage)
     return newMessage.save()
   }
-  //TODO: Add support for updating multiple at a time
   updateMarkAsRead(messageIds, user) {
     let updatedMessages = messageIds.map(messageId => {
       return Message.findById(messageId)

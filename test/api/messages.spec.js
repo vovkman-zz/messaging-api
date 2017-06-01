@@ -26,7 +26,6 @@ describe('messages collection api endpoints', () => {
         .end((err, res) => {
           res.should.have.status(201)
           res.body.should.have.property('_id')
-          res.body.should.have.property('__v')
           res.body.should.have.property('_user_from_id')
           res.body.should.have.property('_chat_id')
           res.body.should.have.property('viewed_by')
@@ -84,5 +83,8 @@ describe('messages collection api endpoints', () => {
           done()
         })
     })
+  })
+  describe('/DELETE messages/:chatId', (done) => {
+
   })
 })

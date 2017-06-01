@@ -49,16 +49,17 @@ app.route('/')
     res.send(res.locals.user)
   })
   .post((req, res) => {
-    console.log(req.body)
     res.send('swag')
   })
 app.route('/chats')
   .get((req, res) => {
     ChatService.getChat()
       .then(result => {
-        console.log(result)
         res.status(201).send(result)
-    })
+      })
+      .catch((err) => {
+        res.status(400).send(err)
+      })
   })
   .post((req, res) => {
     let users = JSON.parse(req.body.users)
@@ -70,7 +71,17 @@ app.route('/chats')
           })
       })
       .catch((err) => {
-        console.log(err)
+        res.status(400).send(err)
+      })
+  })
+app.route('/chats/:chatId')
+  .get((req, res) => {
+    let chatId = req.params.chatId
+    ChatService.getChat(chatId)
+      .then(result => {
+        res.status(200).send(result)
+      })
+      .catch((err) => {
         res.status(400).send(err)
       })
   })
@@ -93,8 +104,6 @@ app.route('/messages')
   })
   .put((req, res) => {
     let messageIds = JSON.parse(req.body.messageIds)
-    console.log(messageIds)
-    console.log(res.locals.user)
     MessageService.updateMarkAsRead(messageIds, res.locals.user)
       .then((result) => {
         res.send(result)
@@ -126,7 +135,6 @@ app.route('/users/:userId')
         res.send(user)
       })
       .catch((err) => {
-        console.log(err)
         res.status(400).send(err)
       })
 })

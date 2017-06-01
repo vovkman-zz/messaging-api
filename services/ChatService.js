@@ -11,19 +11,18 @@ class ChatService {
     return newChat.save()
   }
   updateChatMessages (insertedMessage) {
-    console.log(insertedMessage)
     return Chat.findOne({'_id': insertedMessage._chat_id})
       .then((chat) => {
         chat.messages.push(insertedMessage._id)
         return chat.save()
       })
       .catch((err) => {
-        console.log(err)
+        return err
       })
   }
-  getChat(){
+  getChat(chatId){
     return Chat
-      .findOne({'_id': "591915c545dbf6607592ba49"})
+      .findOne({'_id': chatId})
       .populate('users')
       .exec()
   }
