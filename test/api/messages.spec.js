@@ -59,6 +59,8 @@ describe('messages collection api endpoints', () => {
           done()
         })
     })
+  })
+  describe('/PUT messages', () => {
     it('should update a messages views', done => {
       let testMessage = messageFixtures.updateMessageViews
       chai.request(app)
@@ -84,7 +86,38 @@ describe('messages collection api endpoints', () => {
         })
     })
   })
-  describe('/DELETE messages/:chatId', (done) => {
-
+  describe('/GET messages/:messageId', () => {
+    it('should get a message', done => {
+      let messageId = messageFixtures.messageId
+      chai.request(app)
+        .get('/messages/' + messageId)
+        .send()
+        .end((err, res) => {
+          res.should.have.status(200)
+          res.body.should.have.property('_id')
+          res.body.should.have.property('_chat_id')
+          res.body.should.have.property('_user_from_id')
+          res.body.should.have.property('message')
+          res.body.should.have.property('viewed_by')
+          res.body.should.have.property('time_sent')
+          done()
+        })
+    })
+    it('should not get a message with an invalid id', done => {
+      let messageId = messageFixtures.invalidMessageId
+      chai.request(app)
+        .get('/messages/' + messageId)
+        .send()
+        .end((err, res) => {
+          res.should.have.status(400)
+          res.body.should.have.property('message')
+          res.body.should.have.property('name')
+          res.body.should.have.property('stringValue')
+          res.body.should.have.property('kind')
+          res.body.should.have.property('value')
+          res.body.should.have.property('path')
+          done()
+        })
+    })
   })
 })

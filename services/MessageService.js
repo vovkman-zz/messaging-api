@@ -9,6 +9,29 @@ class MessageService {
     newMessage = new Message(newMessage)
     return newMessage.save()
   }
+  getMessage (messageId, user) {
+    return Message.findOne({'_id': messageId})
+      .then(message => {
+        let viewed = message.viewed_by.filter(viewer => {
+          //console.log(viewer._user_id === user)
+          return viewer._user_id === user
+        })
+        if (viewed.length === 0) {
+          let messageId = [message._id]
+          return this.updateMarkAsRead(messageId, user)
+            .then(updatedMessage => {
+              return updatedMessage.updatedMessages[0]
+            })
+            .catch(err => {
+              return err
+            })
+        }
+        return message
+      })
+      .catch(err => {
+        return Promise.reject(err)
+      })
+  }
   updateMarkAsRead(messageIds, user) {
     let updatedMessages = messageIds.map(messageId => {
       return Message.findById(messageId)
@@ -35,7 +58,7 @@ class MessageService {
         return response
       })
       .catch(err => {
-        return Promise.reject(err)
+        return err
       })
   }
 }

@@ -113,8 +113,16 @@ app.route('/messages')
       })
   })
 app.route('/messages/:messageId')
-  .delete((req, res) => {
+  .get((req, res) => {
     let messageId = req.params.messageId
+    let user = res.locals.user
+    MessageService.getMessage(messageId, user)
+      .then(message => {
+        res.send(message)
+      })
+      .catch((err) => {
+        res.status(400).send(err)
+      })
   })
 app.route('/users')
   .post((req, res) => {

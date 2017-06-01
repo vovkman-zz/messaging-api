@@ -8,6 +8,9 @@ module.exports.message = {
     message: 'The one message to rule them all.'
 }
 
+module.exports.messageId = "5924de8de24c4329eaafa3fe"
+module.exports.invalidMessageId = "5924e5195d821f1e05"
+
 module.exports.updateMessageViews = { messageIds: '["5924e519bd04615d821f1e05"]' }
 
 module.exports.updateMessagesViews = {
