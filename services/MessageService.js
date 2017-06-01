@@ -13,8 +13,7 @@ class MessageService {
     return Message.findOne({'_id': messageId})
       .then(message => {
         let viewed = message.viewed_by.filter(viewer => {
-          //console.log(viewer._user_id === user)
-          return viewer._user_id === user
+          return viewer._user_id == user.sub
         })
         if (viewed.length === 0) {
           let messageId = [message._id]
