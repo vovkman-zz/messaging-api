@@ -22,7 +22,6 @@ describe('chats collection api endpoints', () => {
       let chatId = chatFixtures.chatId
       chai.request(app)
         .get('/chats/' + chatId)
-        .send(chatId)
         .end((err, res) => {
           res.should.have.status(200)
           res.body.should.have.property('_id')

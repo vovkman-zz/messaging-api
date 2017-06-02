@@ -4,29 +4,17 @@
 
 module.exports.users = [
   {
-    name: 'Liam TestDB',
-    email: 'liam_is_swag@test.com',
-    phone_number: 1234567,
-    age: 21,
-    account_type: 'contractor'
+    name: 'Liam TestDB'
   },
   {
-    name: 'Liam TestDB',
-    email: 'liam_is_swag@test.com',
-    phone_number: 1234567,
-    age: 21,
-    account_type: 'contractor'
+    name: 'Liam TestDB'
   },
   {
-    name: 'Liam TestDB',
-    email: 'liam_is_swag@test.com',
-    phone_number: 1234567,
-    age: 21,
-    account_type: 'contractor'
+    name: 'Liam TestDB'
   }
 ]
 
-module.exports.userId = "591a3b5a56b7e5938d136c50"
+module.exports.userId = "59319c755957a335f4caa280"
 
 module.exports.invalidUsers =
   {
@@ -35,18 +23,5 @@ module.exports.invalidUsers =
       phone_number: 1234567,
       age: 21,
       account_type: 'contractor'
-    },
-    noAccountType: {
-      name: 'Liam TestDB',
-      email: 'liam_is_swag@test.com',
-      phone_number: 1234567,
-      age: 21
-    },
-    invalidAccountType: {
-      name: 'Liam TestDB',
-      email: 'liam_is_swag@test.com',
-      phone_number: 1234567,
-      age: 21,
-      account_type: 'invalid'
     }
   }

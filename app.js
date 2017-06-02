@@ -52,15 +52,6 @@ app.route('/')
     res.send('swag')
   })
 app.route('/chats')
-  .get((req, res) => {
-    ChatService.getChat()
-      .then(result => {
-        res.status(201).send(result)
-      })
-      .catch((err) => {
-        res.status(400).send(err)
-      })
-  })
   .post((req, res) => {
     let users = JSON.parse(req.body.users)
     ChatService.insertChat(users)
@@ -125,6 +116,16 @@ app.route('/messages/:messageId')
       })
   })
 app.route('/users')
+  .get((req, res) => {
+    let user = res.locals.user
+    UserService.getUser(user)
+      .then((user) => {
+        res.send(user)
+      })
+      .catch((err) => {
+        res.status(400).send(err)
+      })
+  })
   .post((req, res) => {
     let newUser = req.body
     UserService.insertUser(newUser)
@@ -135,17 +136,6 @@ app.route('/users')
         res.status(400).send(err)
       })
   })
-app.route('/users/:userId')
-  .get((req, res) => {
-    let userId = req.params.userId
-    UserService.getUser(userId)
-      .then((user) => {
-        res.send(user)
-      })
-      .catch((err) => {
-        res.status(400).send(err)
-      })
-})
 
 db.catch((err) => {
   console.log(err)

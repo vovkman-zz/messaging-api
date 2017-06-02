@@ -41,8 +41,6 @@ describe('messages collection api endpoints', () => {
         .end((err, res) => {
           res.should.have.status(400)
           res.body.should.have.property('errors')
-          res.body.should.have.property('message')
-          res.body.should.have.property('name')
           done()
         })
     })
@@ -54,8 +52,6 @@ describe('messages collection api endpoints', () => {
         .end((err, res) => {
           res.should.have.status(400)
           res.body.should.have.property('errors')
-          res.body.should.have.property('message')
-          res.body.should.have.property('name')
           done()
         })
     })

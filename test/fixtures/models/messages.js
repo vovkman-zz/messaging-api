@@ -3,12 +3,12 @@
  */
 
 module.exports.message = {
-    _chat_id: '591a7c72b1831cc12dae2fdd',
-    _user_from_id: '5913af934c9b0944983ad3e3',
+    _chat_id: '59319ce95957a335f4caa282',
+    _user_from_id: '59319c755957a335f4caa280',
     message: 'The one message to rule them all.'
 }
 
-module.exports.messageId = "5924de8de24c4329eaafa3fe"
+module.exports.messageId = "59319e4b958605364b0860b8"
 module.exports.invalidMessageId = "5924e5195d821f1e05"
 
 module.exports.updateMessageViews = { messageIds: '["5924e519bd04615d821f1e05"]' }
