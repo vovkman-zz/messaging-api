@@ -7,7 +7,7 @@ let options = null
 
 class AuthService {
   authenticate (token) {
-    if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'dev') {
+    if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'prod') {
       token = process.env.DEV_JWT
     }
     return new Promise((resolve, reject) => {

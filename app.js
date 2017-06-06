@@ -120,6 +120,9 @@ app.route('/users')
     let user = res.locals.user
     UserService.getUser(user)
       .then((user) => {
+        if (user == null) {
+
+        }
         res.send(user)
       })
       .catch((err) => {
