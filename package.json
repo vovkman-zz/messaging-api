@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "export NODE_ENV=dev && nodemon app.js",
-    "test": "export NODE_ENV=test && mocha --require co-mocha test/**/**.spec.js"
+    "test": "export NODE_ENV=test && mocha --require co-mocha test/**/**.spec.js",
+    "prod": "export NODE_ENV=prod && node app.js"
   },
   "author": "Liam Vovk",
   "license": "MIT",
