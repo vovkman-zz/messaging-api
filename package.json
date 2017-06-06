@@ -4,9 +4,12 @@
   "description": "messaging api",
   "main": "app.js",
   "scripts": {
-    "dev": "export NODE_ENV=dev && nodemon app.js",
-    "test": "export NODE_ENV=test && mocha --require co-mocha test/**/**.spec.js",
-    "prod": "export NODE_ENV=prod && node app.js"
+    "osx-dev": "export NODE_ENV=dev && nodemon app.js",
+    "osx-test": "export NODE_ENV=test && mocha --require co-mocha test/**/**.spec.js",
+    "osx-prod": "export NODE_ENV=prod && node app.js",
+    "win-dev": "set NODE_ENV=dev && nodemon app.js",
+    "win-test": "set NODE_ENV=test && mocha --require co-mocha test/**/**.spec.js",
+    "win-prod": "set NODE_ENV=prod && node app.js"
   },
   "author": "Liam Vovk",
   "license": "MIT",
