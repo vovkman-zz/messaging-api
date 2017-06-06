@@ -119,11 +119,20 @@ app.route('/users')
   .get((req, res) => {
     let user = res.locals.user
     UserService.getUser(user)
-      .then((user) => {
-        if (user == null) {
-
+      .then((curUser) => {
+        if (curUser === null) {
+          let newUser = { _id: user.sub, name: user.name }
+          UserService.insertUser(newUser)
+            .then(insertedUser => {
+              res.status(201).send(insertedUser)
+            })
+            .catch(err => {
+              res.status(400).send(err)
+            })
         }
-        res.send(user)
+        else {
+          res.status(200).send(curUser)
+        }
       })
       .catch((err) => {
         res.status(400).send(err)

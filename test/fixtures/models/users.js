@@ -7,7 +7,7 @@ let userId = "590f5c20d96cd4eccb38d6fc"
 
 let testCollection = [
   {
-    _id: new ObjectId(userId),
+    _id: new ObjectId("5931a8bbcdb67137371faa21"),
     name: 'Liam TestDB',
     chats: []
   },

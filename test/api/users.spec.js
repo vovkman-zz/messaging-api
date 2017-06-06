@@ -53,12 +53,21 @@ describe('users collection api endpoints', () => {
     })
   })
   describe('/GET users', () => {
-    it('should return the existing user', (done) => {
+    it('should create the existing user if they arent present in the db', done => {
+      chai.request(app)
+        .get('/users')
+        .end((err, res) => {
+          res.should.have.status(201)
+          res.body.should.have.property('_id')
+          res.body.should.have.property('name')
+          done()
+        })
+    })
+    it('should return the existing user', done => {
       chai.request(app)
         .get('/users')
         .end((err, res) => {
           res.should.have.status(200)
-          res.body.should.be.a('object')
           res.body.should.have.property('_id')
           res.body.should.have.property('name')
           done()
