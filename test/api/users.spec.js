@@ -8,17 +8,24 @@ chai.use(chaiAsPromised)
 chai.use(chaiHttp)
 let should = chai.should()
 
-let db = require('../../db/connect/connect')
+let connectionString = require('../../db/config/connection_string')
+let mongo = require('mongodb').MongoClient
+let db = mongo.connect(connectionString)
+let collection
 let app = require('../../app')
 let userFixtures = require('../fixtures/models/users')
 
 describe('users collection api endpoints', () => {
   before(function * () {
-    yield db
+    db = yield db
+    yield db.collection('users').insertMany(userFixtures.testCollection)
+  })
+  after(function * () {
+    yield db.collection('users').drop()
   })
   describe('/POST users', () => {
     it('should insert a user', (done) => {
-      let testUser = userFixtures.users[0]
+      let testUser = userFixtures.user
       chai.request(app)
         .post('/users')
         .send(testUser)
@@ -45,7 +52,7 @@ describe('users collection api endpoints', () => {
         })
     })
   })
-  describe('/GET users', (req, res) => {
+  describe('/GET users', () => {
     it('should return the existing user', (done) => {
       chai.request(app)
         .get('/users')

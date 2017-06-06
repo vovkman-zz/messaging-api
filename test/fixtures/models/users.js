@@ -2,26 +2,34 @@
  * Created by Liam Vovk on 2017-05-14.
  */
 
-module.exports.users = [
+let ObjectId = require('mongodb').ObjectId
+let userId = "590f5c20d96cd4eccb38d6fc"
+
+let testCollection = [
   {
-    name: 'Liam TestDB'
+    _id: new ObjectId(userId),
+    name: 'Liam TestDB',
+    chats: []
   },
   {
-    name: 'Liam TestDB'
+    _id: new ObjectId("591910884ae5ba668d93e236"),
+    name: 'Liam TestDB',
+    chats: []
   },
   {
-    name: 'Liam TestDB'
+    _id: new ObjectId("591a714c4128cbaca1ab49a6"),
+    name: 'Liam TestDB',
+    chats: []
   }
 ]
 
-module.exports.userId = "59319c755957a335f4caa280"
+module.exports.userId = userId
+module.exports.testCollection = testCollection
+
+module.exports.user = { name: 'Liam TestDB' }
 
 module.exports.invalidUsers =
   {
     noName: {
-      email: 'liam_is_swag@test.com',
-      phone_number: 1234567,
-      age: 21,
-      account_type: 'contractor'
     }
   }

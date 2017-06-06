@@ -9,13 +9,20 @@ chai.use(chaiHttp)
 const expect = chai.expect
 let should = chai.should()
 
-let db = require('../../db/connect/connect')
+let connectionString = require('../../db/config/connection_string')
+let mongo = require('mongodb').MongoClient
+let db = mongo.connect(connectionString)
+let collection
 let app = require('../../app')
 let messageFixtures = require('../fixtures/models/messages')
 
 describe('messages collection api endpoints', () => {
   before(function * () {
-    yield db
+    db = yield db
+    yield db.collection('messages').insertMany(messageFixtures.testCollection)
+  })
+  after(function * () {
+    yield db.collection('messages').drop()
   })
   describe('/POST messages', () => {
     it('should insert a message', done => {
@@ -30,6 +37,7 @@ describe('messages collection api endpoints', () => {
           res.body.should.have.property('_chat_id')
           res.body.should.have.property('viewed_by')
           res.body.should.have.property('time_sent')
+          messageFixtures.messageId = res.body._id
           done()
         })
     })
@@ -69,18 +77,18 @@ describe('messages collection api endpoints', () => {
           done()
         })
     })
-    it('should update multiple messages views', done => {
-      let testMessage = messageFixtures.updateMessagesViews
-      chai.request(app)
-        .put('/messages')
-        .send(testMessage)
-        .end((err, res) => {
-          expect(res.body.updatedMessages).to.have.lengthOf(JSON.parse(testMessage.messageIds).length)
-          res.body.should.have.property('updatedMessages')
-          res.body.should.have.property('updatedCount')
-          done()
-        })
-    })
+    // it('should update multiple messages views', done => {
+    //   let testMessage = messageFixtures.updateMessagesViews
+    //   chai.request(app)
+    //     .put('/messages')
+    //     .send(testMessage)
+    //     .end((err, res) => {
+    //       expect(res.body.updatedMessages).to.have.lengthOf(JSON.parse(testMessage.messageIds).length)
+    //       res.body.should.have.property('updatedMessages')
+    //       res.body.should.have.property('updatedCount')
+    //       done()
+    //     })
+    // })
   })
   describe('/GET messages/:messageId', () => {
     it('should get a message', done => {
