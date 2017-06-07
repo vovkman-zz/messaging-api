@@ -13,7 +13,7 @@ class MessageService {
     return Message.findOne({'_id': messageId})
       .then(message => {
         let viewed = message.viewed_by.filter(viewer => {
-          return viewer._user_id == user.sub
+          return viewer._user_id == user._id
         })
         if (viewed.length === 0) {
           let messageId = [message._id]
@@ -37,7 +37,7 @@ class MessageService {
         .then(message => {
           if (message != null) {
             let viewedByUser = {}
-            viewedByUser._user_id = user.sub
+            viewedByUser._user_id = user._id
             viewedByUser.viewed_at = Date.now()
             message.viewed_by.push(viewedByUser)
             return message.save()

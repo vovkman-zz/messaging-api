@@ -120,18 +120,17 @@ app.route('/users')
     let user = res.locals.user
     UserService.getUser(user)
       .then((curUser) => {
-        if (curUser === null) {
-          let newUser = { _id: user.sub, name: user.name }
-          UserService.insertUser(newUser)
+        if (curUser) {
+          res.status(200).send(curUser)
+        }
+        else {
+          UserService.insertUser(user)
             .then(insertedUser => {
               res.status(201).send(insertedUser)
             })
             .catch(err => {
               res.status(400).send(err)
             })
-        }
-        else {
-          res.status(200).send(curUser)
         }
       })
       .catch((err) => {

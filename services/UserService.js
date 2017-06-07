@@ -10,7 +10,8 @@ class UserService {
     return newUser.save()
   }
   getUser (user) {
-    return User.findById(user.sub)
+    return User.findById(user._id)
+      .then()
   }
   updateUserChats (newChat) {
     let preUpdateUsers =
