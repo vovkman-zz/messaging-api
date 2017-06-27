@@ -16,9 +16,6 @@ class ChatService {
         chat.messages.push(insertedMessage._id)
         return chat.save()
       })
-      .catch((err) => {
-        return err
-      })
   }
   getChat(chatId){
     return Chat

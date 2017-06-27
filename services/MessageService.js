@@ -27,9 +27,6 @@ class MessageService {
         }
         return message
       })
-      .catch(err => {
-        return Promise.reject(err)
-      })
   }
   updateMarkAsRead(messageIds, user) {
     let updatedMessages = messageIds.map(messageId => {

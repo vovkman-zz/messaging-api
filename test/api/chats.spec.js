@@ -21,7 +21,6 @@ describe('chats collection api endpoints', () => {
     yield db.collection('chats').insertMany(chatFixtures.testCollection)
   })
   after(function * () {
-    yield db.collection('chats').drop()
   })
   describe('/POST chats', () => {
     it('should insert a chat', (done) => {

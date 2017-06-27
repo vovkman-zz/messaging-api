@@ -32,6 +32,6 @@ module.exports.chat = { users: '["5917ffe4f91c09262137d674", "591910884ae5ba668d
 
 module.exports.invalidChat = { users: '' }
 
-module.exports.chatId = "591a7dd29cf3f3c05d7ac1b1"
+module.exports.chatId = chatId
 
 module.exports.invalidChatId = "591a7c71831cc12da"

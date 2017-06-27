@@ -23,6 +23,7 @@ describe('messages collection api endpoints', () => {
   })
   after(function * () {
     yield db.collection('messages').drop()
+    yield db.collection('chats').drop()
   })
   describe('/POST messages', () => {
     it('should insert a message', done => {
